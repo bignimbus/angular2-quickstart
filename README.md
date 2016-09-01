@@ -65,13 +65,15 @@ class ES2015Prescription {
 }
 
 class TypeScriptPrescription {
-  left_sph: number;
-  right_sph: number;
+  constructor({left_sph, right_sph}: {left_sph: number, right_sph: number}) {
+    Object.assign(this, {left_sph, right_sph});
+  }
 
   logProp(prop: string): void {
     console.log(this[prop]);
   }
 }
+let rx = new TypeScriptPrescription({right_sph: 2});
 ```
 
 Now, let's instantiate these:
@@ -82,13 +84,15 @@ var es5Prescription = new ES5Prescription ({
   right_sph: 1
 });
 
-let es2015Prescription = Object.create({
+let es2015Prescription = new ES2015Prescription({
   left_sph: 1,
   right_sph: 1
-}, ES2015Prescription);
+});
 
-let typeScriptPrescription = new TypeScriptPrescription {
+let typeScriptPrescription = new TypeScriptPrescription({
   left_sph: 1,
   right_sph: 1
-} as TypeScriptPrescription
+});
 ```
+
+They're virtually the same.  But the TypeScript implementation imposes certain constraints that the others don't.
