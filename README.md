@@ -95,4 +95,83 @@ let typeScriptPrescription = new TypeScriptPrescription({
 });
 ```
 
-They're virtually the same.  But the TypeScript implementation imposes certain constraints that the others don't.
+They're virtually the same.  But the TypeScript implementation imposes certain constraints that the others don't.  We can't assign properties other than `left_sph` and `right_sph`, and we can't assign values that aren't of type `number` to those property names.  Don't worry, though: `NaN` is still a `number` in TypeScript!
+
+## Where are the controllers and directives?
+
+There are no more controllers as we knew them.  Controllers are now strictly used as children of directives.
+
+![Angular 2 directive talking to a controller](http://i.giphy.com/rVZEejvVWEbug.gif)
+
+Roughly speaking, components have become the building blocks of our Angular 2 applications:
+
+```ts
+// @Component is a decorator function.  We invoke it before the class declaration
+// to add metadata to the HeroDetailComponent that Angular uses to manage the life
+// cycle of this component.
+@Component({
+  selector: 'my-hero-detail',
+  templateUrl: 'app/hero-detail.component.html',
+  styleUrls: ['app/hero-detail.component.css']
+})
+export class HeroDetailComponent implements OnInit {
+  // constructors in Angular 2 are the place where we inject other modules into
+  // the class.
+  constructor (
+    private heroService: HeroService,
+    private route: ActivatedRoute
+  ) {}
+
+  // ngOnInit runs when the component is instantiated
+  ngOnInit(): void {
+    this.route.params.forEach((params: Params) => {
+      let id = +params['id'];
+      this.heroService.getHero(id)
+        .then(hero => this.hero = hero);
+    });
+  }
+
+  // prototype methods
+  goBack(): void {
+    window.history.back();
+  }
+
+  save(): void {
+    this.heroService.update(this.hero)
+      .then(this.goBack);
+  }
+
+  // another decorator! @Input is used to bind the `hero` object to the template.
+  // this allows us to use two-way binding.  `hero: Hero;` tells us that the `hero`
+  // object is of type `Hero`.
+  @Input()
+  hero: Hero;
+}
+```
+
+Each component is intended to be a unit of markup, styles and behavior, similar to a React component.
+
+Directives, on the other hand, are encouraged to be more specialized in Angular 2.  We no longer assign templates to directives, that's an Angular 1 pattern.  Directives in Angular 2 are for defining behavior on an html element that already exists.  We need only define a _selector_ on the directive body:
+
+```ts
+// from http://www.waynehong.com/javascript/angular-2-attribute-directive-typescript-example/
+import {Directive} from 'angular2/core';
+import {NgModel} from 'angular2/common';
+ 
+@Directive({ 
+    selector: '[ngModel][uppercase]', 
+    host: {
+        '(input)' : 'onInputChange()'
+    }
+})
+export class UppercaseDirective{
+    
+    constructor(public model:NgModel){}
+    
+    onInputChange(){
+        var newValue = this.model.value.toUpperCase();
+        this.model.valueAccessor.writeValue(newValue);
+        this.model.viewToModelUpdate(newValue);
+    }
+}
+```
