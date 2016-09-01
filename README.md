@@ -76,7 +76,6 @@ class TypeScriptPrescription {
     console.log(this[prop]);
   }
 }
-let rx = new TypeScriptPrescription({right_sph: 2});
 ```
 
 Now, let's instantiate these:
