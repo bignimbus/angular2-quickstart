@@ -43,11 +43,11 @@ export class HeroService {
   }
 
   create(hero: string): Promise<Hero> {
-    const payload = {name: hero} as Hero;
+    const payload = {name: hero};
     return this.http
       .post(this.heroesUrl, JSON.stringify(payload), {headers: this.headers})
       .toPromise()
-      .then(response => response.json().data as Hero[])
+      .then(response => response.json().data as Hero)
       .catch(this.handleError);
   }
 
