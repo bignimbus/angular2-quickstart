@@ -70,9 +70,7 @@ class ES2015Prescription {
 }
 
 class TypeScriptPrescription {
-  constructor({left_sph, right_sph}: {left_sph: number, right_sph: number}) {
-    Object.assign(this, {left_sph, right_sph});
-  }
+  constructor(public left_sph: number, public right_sph: number) {}
 
   logProp(prop: string): void {
     console.log(this[prop]);
