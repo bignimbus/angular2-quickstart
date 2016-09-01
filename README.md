@@ -168,7 +168,7 @@ import {NgModel} from 'angular2/common';
     }
 })
 export class UppercaseDirective{
-    
+    // this class is the "controller"
     constructor(public model:NgModel){}
     
     onInputChange(){
