@@ -1,6 +1,11 @@
 # Angular 2 + TypeScript Overview
 #### For those who are used to Angular 1 + ES5
 
+## Getting started
+```bash
+npm install && npm start
+```
+
 ## Angular 2 encourages modularity and single-purpose design
 Every "app" using Angular 2 is encapsulated in a class with a `NgModule` decorator [(example)](https://github.com/bignimbus/angular2-quickstart/blob/master/app/app.module.ts).  This is roughly analogous to `angular.module([])` in Angular 1.x.  `NgModules` read like a manifest: they essentially list all the classes that are "allowed" inside the module:
 
